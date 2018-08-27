@@ -1,0 +1,201 @@
+
+AngularJS?
+    - 단일 페이지 어플리케이션 개발 방식을 제공하는 프레임워크.
+    SPA?
+        - Singer Page Application (단일 페이지로 개발된 어플리케이션)
+    SPA 개발 무게 중심?
+        - 기존의 개발 방식은 백엔드 무게 중심이지만, SPA 을 도입한 이후에는 프론트 엔드로 넘어간다.
+
+    개발 도구?
+        - Yeoman(yo, bower, grunt), NodeJS(NPM), Git(git)
+
+        Yeoman?
+            개발 도구 세가지(yo, bower, grunt) 을 통칭한다.
+            yo?
+                - 앱의 초기 환경과 폴더 구조 및 필요한 기능 요소 파일을 자동으로 생성하는 툴. (초기화 툴)
+                제너레이터(generator)?
+                    - yo는 다양한 프레임워크에 맞춘 제너레이터를 제공.
+                generator-angular?
+                    - yo 에서 제공하는 공식 앵귤러 제너레이터.
+                    - 'npm install -g generator-angular' 를 통해 설치.
+
+                generator-karma?
+
+                yo [FRAMEWORK:기능] [NAME]
+                    - 소스를 생성한다.
+                yo angular:app [ModuleName]
+                    - 앵귤러 프로젝트를 생성한다.
+                    Yo 로 생성된 앵귤러 프로젝트 구조.
+                        app 폴더
+                            - HTML/CSS/JS 파일이 존재한다.
+                        bower_components 폴더
+                            - bower 가 내려받은 의존성 라이브러리. bower install 명령어를 실행하면
+                            bower_components 폴더에 라이브러리가 자동 설치되고 index.html 에 javascript, css 파일이 자동 추가 된다.
+                        test 폴더
+                            - 단위 테스트 파일 위치.
+
+            bower?
+                - 앱의 의존성 라이브러리를 관리하는 툴 (의존성 관리 툴)
+                - 의존성 라이브러리를 원격으로 부터 설치하고 index.html 에 자동 설정
+                bower install
+                bower search
+
+            grunt?
+                - 테스트와 배포를 위한 빌드 툴 (빌드 툴)
+
+                grunt serve?
+                    - 앱을 실행한다.
+                grunt test?
+                    - 단위 테스트를 자동으루 수행한다.
+                grunt build?
+                    - 배포 버전의 폴더가 생성된다.
+                    app/dist?
+                        - grunt build 로 생성된 배포 버전 폴더
+
+            *npm install -g ?
+                - '-g' 옵션은 글로벌 옵션으로 위치에 상관없이 사용할 수 있게 설정.
+
+        1. npm install -g yo?
+        2. npm install -g bower?
+        3. npm install -g grunt?
+        4. npm install -g grunt-cli?
+        5. npm install -g generator-angular?
+        6. npm install -g generator-karma?
+        7. yo angular MyToDo?
+
+
+    index.html?
+        - index.html 은 앱의 시작점이자 부분적인 화면(Partial Views) 의 컨테이너 역할을 한다.
+
+        부분 화면(Partial Views)?
+            - ng-view 디렉티브의 지점에 대체되는 한 개 이상의 부분 화면이다. ex) <div ng-view="">
+            ng-views?
+                - 디렉티브로서 라우팅 설정에 따라 부분적 DOM 변경이 일어날 수 있는 곳(LOCATION) 이다.
+        템플릿?
+            - 앵귤러에선 템플릿은 컴파일러에 의해 해석(Parsing) 되고 데이터 바인딩(Data Binding) 이 일어나는 HTML 을 의미한다.
+
+        <header>?
+            - bower 을 이용해 설치된 css 임폴트 코드가 위치한다.
+            주석 태그?
+                <!-- build:css(.) styles/vendor.css -->
+                    - grunt build 수행 시 통합 css 파일의 명칭(styles/vendor.css) 을 지정한다.
+                <!-- bower:css -->
+                    - bower 을 이용해 설치한 모듈의 css 파일이 자동으로 첨부된다.
+        <body>?
+            yo의 어플리케이션 명칭 명명?
+                - yo angular [moduleName] 의 moduleName 의 첫 문자는 소문자, 접미사는 App 이 붙는다.
+
+            ng-app?
+                - 앵귤러 모듈로부터 앱을 초기화한다.
+            주석 태그?
+                <!-- build:js(.) scripts/vendor.js -->
+                    - grunt build 수행 시 통합 js 파일의 명칭(scripts/vendor.js) 을 지정한다.
+                <!-- bower:js -->
+                    - bower 을 이용해 설치한 js 파일이 자동으러 첨부된다.
+                <!-- build:js({.tmp,app}) scripts/scripts.js -->
+                    - yo 을 이용해 명령 수행할 때 (yo angular:controller [ctrlName]) 시 생성되는 js 파일을 자동으로 넣는다.
+                *bower 와 주석?
+
+        yo 을 이용한 컨트롤러 생성
+            yo angular:controller [name]
+                yo 의 script 자동 추가?
+                    - <!-- build:js({.tmp,app}) scripts/scripts.js --> 태그에 의해 index.html에 자동으로 첨부된다.
+            app.js?
+                - yo 로 생성한 시작 모듈을 정의한 파일이다.
+            라우팅 설정?
+                - ngRoute 모듈을 임폴트 하고, Module.config($routerProvide) 함수에서 주입받은 프로바이더로 라우팅을 설정한다.
+            템플릿과 상호작용?
+
+        bower 을 이용한 지시자 추가?
+            bower list?
+            angular-ui-sortable?
+            bower search [moduleName]?
+            bower install [moduleName] --save?
+            bower.json?
+            모듈 의존성 설정?
+
+        카르마(Karma)?
+            test/karma.conf.js?
+
+    Chapter 1 정리.
+        프런트엔드 개발 도구에 대해 학습했따.
+        제너레이터를 사용하면 반복 작업 및 초기 프로젝트 설정의 시간을 단축한다.
+
+        yo angular [appName]
+            - 어플리케이션의 골격 코드 생성
+        grunt serve
+            - 개발 서버 실행
+        grunt build
+            - 코드를 통합/압축해 배포 코드 생성
+        yo angular:controller [ctrlName]
+            - 앵귤러 컨트롤러 생성
+        bower search [moduleName]
+            - 의존 라이브러리 검색
+        bower install [moduleName] --save
+            - 검색 모듈 설치 및 '--save' 옵션으로 bower.json 에 자동 등록.
+        grunt test
+            - 유닛 테스트 수행.
+
+
+AngularJS 기본 개념.
+    AngularJS 특징 6가지?
+
+        1.MV* 개발 방식?
+            모델(Model)?
+                스코프($scope 혹은 뷰모델[ViewModel])?
+            컨트롤러(Controller)?
+            뷰(View)?
+
+            앵귤러 MVW의 기본 구조?
+                앵귤러 컴포넌트의 종류?
+                    모듈(Module)?
+                    서비스(Factory, Service)?
+                    컨트롤러(Controller)?
+                    뷰(View)?
+                        지시자(Directive)?
+                    뷰모델(ViewModel)?
+
+        2.양방향 데이터 바인딩?
+            데이터 바인딩의 핵심?
+                scope
+                    $rootScope?
+                    감시자($scope.$watch)?
+                    변경 반영($scope.$apply)?
+                        변경 반영이 필요한 3가지 경우?
+
+                    angular.element($0).scope()?
+             ng-model?
+            스코프 생명 주기($scope Life Cycle)?
+            $scope 객체 메서드
+                $eval(expressions, locals)?
+                $evalAsync(expression)?
+                $broadcast?
+                $emit?
+                $on?
+
+        3.지시자(Directive)?
+            지시자의 용도?
+            지시자의 컴파일?
+            지시자의 정의?
+            지시자의 link 함수?
+                $scope 의 $apply?
+                $scope 의 $eval?
+            지시자의 restrict?
+            지시자의 스코프 종류 세가지?
+
+        4.템플릿(Template)?
+
+        5.의존성 주입(Dependency Injection)?
+            겍체지향 5가지 원칙?
+                SRP (Single Responsibility Principle)?
+                OCP (Open/Closed Principle)?
+                LSP (Liskov Substitution Principle)?
+                ISP (Interface Segregation Principle)?
+                DIP (Independency Inversion Principle)?
+            앵귤러의 DI 방식?
+            모듈 의존성 설정?
+
+        6.테스트 프레임워크
+
+
+
