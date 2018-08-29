@@ -25,4 +25,13 @@
     </p>
   </div>
   <input type="text" mobicon-enter="search()">
+
+  <div ng-controller="StepscopeCtrl">
+    <h4 ng-click="reverseName()">Parent scope name : {{ name }}</h4>
+    <step-scope-false />
+    <step-scope-true />
+    <step-isolated-from-parent p-name="{{name}}" />
+    <step-isolated-bi-directional p-name="name" />
+    <step-isolated-to-parent p-name="name" p-reverse="reverseName()" />
+  </div>
 </div>

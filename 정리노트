@@ -139,49 +139,130 @@ AngularJS?
 
 AngularJS 기본 개념.
     AngularJS 특징 6가지?
-
+        - MV* 개발 방식, 양방향 데이터 바인딩, 지시자(Directive), 템플릿(Template), 의존성 주입(DI), 테스트 프레임워크
         1.MV* 개발 방식?
+            - 백엔드의 MVC 개발 방식처럼 업무 로직을 역할에 따라 분리한 개발 방식.
             모델(Model)?
-                스코프($scope 혹은 뷰모델[ViewModel])?
+                - POJO (Plain Old Javascript Object) 이면서 $scope 의 속성.
+                뷰모델?
+                    - $scope
             컨트롤러(Controller)?
+                - 뷰모델($scope) 의 데이터 핸들링을 담당.
             뷰(View)?
+                - 템플릿과 컨트롤러로 부터 받은 데이터를 표현.
 
             앵귤러 MVW의 기본 구조?
+                - Model <> Controller <> VIEW
+
                 앵귤러 컴포넌트의 종류?
+                    - 환경 설정(config), 초기화 실행(run), 컨트롤러, 서비스(service, factory), 필터, 사용자 정의 태그(directive)
+
                     모듈(Module)?
+                        - 모듈은 앵귤러 컴포넌트를 정의하고, 다른 모듈끼리의 의존성 설정을 하는 최상위 컴포넌트이다.
                     서비스(Factory, Service)?
+                        - 백엔드로부터 데이터를 받아 오거나 여러 컨트롤러로부터 데이터를 받아 처리한다.
                     컨트롤러(Controller)?
+                        - 뷰와 뷰모델($scope) 을 통해 데이터를 핸들링한다.
                     뷰(View)?
+                        - 화면에 보여주는 HTML 과 사용자 정의 태그(directive) 로 구성된다.
                         지시자(Directive)?
-                    뷰모델(ViewModel)?
+                            - 뷰 영역에 속하며 HTML 기능을 확장한다.
 
         2.양방향 데이터 바인딩?
-            데이터 바인딩의 핵심?
-                scope
-                    $rootScope?
-                    감시자($scope.$watch)?
-                    변경 반영($scope.$apply)?
-                        변경 반영이 필요한 3가지 경우?
+            - [기본 이벤트, 리스너 방식을 사용하지 않아도] 뷰와 컨트롤러 사이의 값을 자동으로 업데이트해주는 기능.
 
+            데이터 바인딩의 핵심?
+                뷰모델($scope)
+                $scope
+                    앱의 모델 객체이면서 모델의 상태를 점검하는 다양한 메서드를 제공.
+
+                    $rootScope?
+                        - 앱의 초기화에 사용되는 ng-app 지시자의 스코프 객체. 모든 스코프의 조상.
+                    감시자($scope.$watch)?
+                        - 스코프의 객체에 정의한 속성마다 등록되며, 해당 속성의 변경을 일정 주기로 체크.
+                    변경 감시 직접 실행($scope.$apply)?
+                        - 직접 변경한 값을 뷰에 명시적으로 반영할 때 사용. (변경 감시 직접 수행)
+                        변경 반영이 필요한 3가지 경우?
+                            - 사용자 정의 이벤트 콜백, Third 파티 라이브러리 콜백, 네트워크 비동기 콜백.
                     angular.element($0).scope()?
+                        - $rootScope
              ng-model?
+                - 양방향 바인딩시 사용. 스코프의 속성과 뷰에서 변경되는 값을 동기화
             스코프 생명 주기($scope Life Cycle)?
+                1. ng-app 을 통한 초기화의 생성 단계
+                2. DOM 또는 코드 내역을 해석해 속성에 대한 $watch 을 등록하는 감시자 등록 단계
+                3. $watch 의 감시를 통해 모델의 변경이 감지되면 $apply 을 수행하는 모델 변경 수행 단계
+                4. scope.$destroy 을 통한 파괴 단계.
+
             $scope 객체 메서드
                 $eval(expressions, locals)?
+                    - 스코프 표현식을 해석, 수행한다.
                 $evalAsync(expression)?
-                $broadcast?
-                $emit?
-                $on?
+                    - 스코프 표현식을 해석, 비동기적 수행한다.
+                스코프 사이의 데이터 전달.
+                    $broadcast?
+                        - 부모 스코프에서 자식 스코프로 데이터 전달.
+                    $emit?
+                        - 자식 스코프에서 부모 스코프로 데이터 전달.
+                    $on?
+                        - $broadcast 혹은 $emit 으로 받은 이벤트의 콜백 함수 등록.
 
         3.지시자(Directive)?
+            - 지시자는 앵귤러의 웹 컴포넌트 중 하나로써, 뷰 영역에 속하며 HTML 을 확장한다.
+            지시자의 종류에는 내장 지시자와 커스텀 지시자가 있다.
             지시자의 용도?
+                1. HTML 을 DOM 으로 해석
+                2. DOM 에서 지시자를 찾아 지시자의 compile 함수를 수행해 DOM 으로 변환.
+                3. 정의된 link 함수를 반환.
+                4. link 함수에 스코프 객체를 주입한 후, 변경 감시를 위해 $watch 목록에 콜백 함수를 등록.
+                5. DOM 을 브라우저에 렌더링.
             지시자의 컴파일?
+
             지시자의 정의?
-            지시자의 link 함수?
-                $scope 의 $apply?
-                $scope 의 $eval?
-            지시자의 restrict?
-            지시자의 스코프 종류 세가지?
+                - Module.directive('directiveName', function(injectable) {
+                    return {
+                        restrict: 'A',
+                        scope: false,
+                        template: '<div></div>',
+                        templateUrl: 'directive.html'm
+                        controller: function($scope, $element, $attrs, $transclude, otherInjectables) {}
+                        compile: function(tElement, tAttrs, transclude) {}
+                        link: function(scope, iElements, iAttrs){}
+                    }
+                }
+                지시자의 HTML 참조 이름 생성?
+                    - 지시자의 명칭에서, 대문자는 소문자로 변하고 앞에 대시가 붙는다.
+                DDO 객체의 속성?
+                    restrict?
+                        HTML 에서 지시자의 사용 형태를 지정.
+                            : A(default), E, C, M
+                            A? Attribute
+                            E? Element
+                            C? Class Attribute
+                            M? Comment
+
+                    scope?
+                        지시자의 스코프 종류 세가지?
+                            scope: false, scope: true, scope: {}
+
+                        scope: false?
+                            - 부모 스코프 객체를 link 함수나 controller 에서 주입
+                        scope: true?
+                            - 스코프를 생성하고 부모 스코프 객체(컨트롤러의 스코프)와 상속 관계를 유지.
+                        scope: {}
+                            - 고립 스코프. 독립적인 스코프를 생성.
+                            고립 스코프와 부모 스코프의 통신?
+                                - 접두사 심볼 문자(prefix symbol string) 을 통해 부모 스코프 객체와 데이터 통신할 수 있다.
+                                    @ 단방향 통신?
+                                        - 부모 스코프 -> 자식 스코프
+                                        HTML 에서 바인딩시 {{}} 대입식을 사용한다.
+                                    = 양방향 통신
+                                        부모 스코프 <-> 자식 스코프
+                                    & 단방향 메서드 통신?
+                                        부모 함수 <- 자식 함수
+                            *$observe 와 $watch 의 차이
+                                $observe 은 속성 객체의 메서드이고, $watch 는 스코프 객체의 메서드이다.
+                                $observe 은 지시자 안에서만 호출, $watch 은 스코프 객체가 사용되는 모든 곳에서 호출 가능하다.
 
         4.템플릿(Template)?
 
